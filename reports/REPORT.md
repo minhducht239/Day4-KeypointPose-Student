@@ -131,25 +131,26 @@ Không có lỗi đảo trái phải trong toàn bộ 20 ảnh
 3. Một ảnh test model đoán sai - gọi tên lỗi theo bốn loại của slide 43
    (lệch nhẹ / đảo trái/phải / nhầm người / trượt hẳn):
 
-- Ảnh: `test_02.jpg` (ảnh hai người đứng che chung ô dưới mưa nhìn từ sau lưng).
-- Tên lỗi: **Lệch nhẹ** (`lech_nhe`).
+- Ảnh: `test_06.jpg` (ảnh hai người đứng che chung ô dưới mưa nhìn từ sau lưng).
+- Tên lỗi: **Nhầm người** (`nham_nguoi`) và **Lệch nhẹ** (`lech_nhe`).
 - Bằng chứng thị giác & phân tích:
- + Tay của người trên trái ảnh bị đánh pose lệch so với ảnh
+  + Hai người (người áo cam váy xếp ly bên trái và người áo khoác nâu bên phải) đứng ép sát nhau dưới một chiếc ô đen. Vùng vai phải và cánh tay phải của người áo cam tiếp giáp trực tiếp với cánh tay trái của người áo nâu. Model dự đoán bị lỗi **nhầm người**: gán nhầm keypoint cánh tay/khuỷu tay của người này sang người kia do khoảng cách giữa hai người quá gần và ranh giới cơ thể bị mờ nhòe vì mưa.
+  + Ngoài ra, vùng đầu hai người bị tán ô đen che khuất từ phía sau (trong ground truth `test_06.txt` mắt và mũi đều là $v=0$), model dự đoán cố gắng ước lượng khớp đầu nhưng bị **lệch nhẹ** ($1.0 < ratio \le 3.0$ lần bán kính dung sai).
 
 4. Ảnh nào có OKS thấp nhất giữa nhãn của bạn và model? Ai đúng, và bạn dựa vào đâu?
 
 - Ảnh có OKS thấp nhất: **`train_13`** (người có OKS thấp nhất đạt **0.581**, người thứ hai đạt **0.709**).
 - **Tôi (người gán nhãn) đúng**, model đoán sai.
 - Căn cứ:
-  1. Bằng chứng thị giác: Trong `train_13.jpg`, người đàn ông mặc vest ở tiền cảnh bị cắt ngang thân dưới ở mép ảnh dưới (chân ra ngoài ảnh nên hai mắt cá chân gán $v=0$ theo đúng luật lớp), hai tay cầm bao thuốc/ví che khuất nhau; người đi bộ áo xanh ở xa bên trái thì quá nhỏ và mờ nhòe. Model YOLO-pose bị "ảo giác" cố đoán khớp chân kéo xuống đáy ảnh hoặc trượt khớp ở người bị mờ phía sau.
-  2. Đối chiếu với gold (`outputs/eval_vs_gold.json`): Nhãn của tôi khớp chính xác cả 3/3 người với gold (OKS người 1 là 0.9586, người 2 là 0.8912, người 3 là 0.824), hoàn toàn không có lỗi đảo trái/phải hay nhầm người. OKS giữa tôi và model thấp là do model gặp khó khăn trên ảnh này khi người ở xa sau cùng có các điểm pose trên ảnh không rõ ràng, chứng minh nhãn người gán chuẩn xác hơn model.
+  1. *Bằng chứng thị giác*: Trong `train_13.jpg`, người đàn ông mặc vest ở tiền cảnh bị cắt ngang thân dưới ở mép ảnh dưới (chân ra ngoài ảnh nên hai mắt cá chân gán $v=0$ theo đúng luật lớp), hai tay cầm bao thuốc/ví che khuất nhau; người đi bộ áo xanh ở xa bên trái thì quá nhỏ và mờ nhòe. Model YOLO-pose bị "ảo giác" cố đoán khớp chân kéo xuống đáy ảnh hoặc trượt khớp ở người bị mờ phía sau.
+  2. *Đối chiếu với gold (`outputs/eval_vs_gold.json`)*: Nhãn của tôi khớp chính xác cả 3/3 người với gold (OKS người 1 là 0.9586, người 2 là 0.8912, người 3 là 0.824 và sau rework đạt ~0.98), hoàn toàn không có lỗi đảo trái/phải hay nhầm người. OKS giữa tôi và model thấp là do model gặp khó khăn trên ảnh phức tạp này, chứng minh nhãn người gán chuẩn xác hơn model.
 
 5. Ảnh bạn gán tệ nhất có *cũng* là ảnh model đoán tệ nhất không? Nếu có, điều đó
    nói gì về bức ảnh đó?
 
 - **Có**. Ảnh tôi gán có OKS thấp nhất so với gold là `train_13.jpg` (người thứ 3 ban đầu có OKS = 0.824, thấp nhất trong 29 người), và đây **cũng chính là** ảnh model đoán có OKS thấp nhất so với tôi (0.581).
 - Điều đó nói lên:
-  + `train_13.jpg` là một bức ảnh khó đối với bài toán pose estimation.
+  + `train_13.jpg` là một bức ảnh **cực kỳ khó (hard sample / extreme edge case)** đối với bài toán pose estimation.
   + Ảnh có sự kết hợp của: (1) **Đa tỉ lệ & độ sâu trường ảnh**: người tiền cảnh rất to nhưng bị cắt cúp mép ảnh, người hậu cảnh rất nhỏ và bị mờ out-of-focus; (2) **Che khuất nặng & tự che khuất (self-occlusion)**: hai bàn tay cầm ví và bao thuốc đan xen; (3) **Cắt mép ảnh (truncation)**: ranh giới nhạy cảm giữa khớp còn trong khung ($v=1$) và đã lọt ra ngoài mép ($v=0$).
   + Khi cả con người cẩn thận gán nhãn lẫn mô hình học sâu đều cho điểm thấp nhất trên cùng một bức ảnh, nó xác nhận đây là mẫu biên mang tính thách thức cao của dữ liệu thế giới thực.
 
