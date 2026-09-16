@@ -11,23 +11,42 @@ Họ tên: Hoàng Trần Minh Đức     Nhóm: T003   Ngày: 16/9/2026
 Số ảnh phải là 20; số skeleton là tổng số người trong 20 ảnh. Thời gian trung bình = tổng
 thời gian gán / 20. -->
 
-| Chỉ số | Giá trị |
-| --- | ---: |
-| Số ảnh đã gán | |
-| Số skeleton | |
-| v=2 / v=1 / v=0 | |
-| Thời gian trung bình mỗi ảnh | |
+- Thư mục nhãn: `dataset\labels\train`
+- 20 ảnh, 29 skeleton, trung bình 16.07 khớp có v > 0 mỗi người
+- Tổng: v=2 355 | v=1 111 | v=0 27
+
+| # | Khớp | v=2 | v=1 | v=0 | %v=1 |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 0 | nose | 23 | 6 | 0 | 21% |
+| 1 | left_eye | 21 | 8 | 0 | 28% |
+| 2 | right_eye | 22 | 7 | 0 | 24% |
+| 3 | left_ear | 15 | 14 | 0 | 48% |
+| 4 | right_ear | 23 | 6 | 0 | 21% |
+| 5 | left_shoulder | 25 | 4 | 0 | 14% |
+| 6 | right_shoulder | 28 | 1 | 0 | 3% |
+| 7 | left_elbow | 23 | 6 | 0 | 21% |
+| 8 | right_elbow | 25 | 4 | 0 | 14% |
+| 9 | left_wrist | 19 | 10 | 0 | 34% |
+| 10 | right_wrist | 20 | 8 | 1 | 28% |
+| 11 | left_hip | 22 | 7 | 0 | 24% |
+| 12 | right_hip | 22 | 7 | 0 | 24% |
+| 13 | left_knee | 19 | 6 | 4 | 21% |
+| 14 | right_knee | 21 | 4 | 4 | 14% |
+| 15 | left_ankle | 15 | 5 | 9 | 17% |
+| 16 | right_ankle | 12 | 8 | 9 | 28% |
 
 Ba khớp có `%v=1` cao nhất (chép từ `reports/visibility_report.md`):
 
-1.
-2.
-3.
+1.  left_ear
+2.  left_wrist
+3.  right_wrist
 
 Chúng có đúng là những khớp bạn thấy khó gán nhất không? Nếu không, giải thích.
 
 <!-- Trả lời 2–4 câu. Phân biệt “hay bị che” với “khó xác định vị trí giải phẫu”; nêu bằng
 chứng nhìn thấy thay vì chỉ nêu cảm giác. -->
+
+Left_ear là phần tai khó xác định vị trí giải phẫu do hướng nhìn của người trong ảnh. Left_wrist và right_wrist trên có tỷ lệ v1 cao do trong các bức ảnh phần tay hay bị che.
 
 ## 2. Chấm với gold
 
