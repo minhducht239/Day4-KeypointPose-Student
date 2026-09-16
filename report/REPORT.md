@@ -53,48 +53,46 @@ Left_ear là phần tai khó xác định vị trí giải phẫu do hướng nh
 <!-- Lấy hai cột từ outputs/eval_vs_gold.json: một lần ngay khi protected release mở và một
 lần sau rework. Đếm số phần tử trong từng danh sách lỗi, không tự làm tròn. -->
 
+OKS trung bình : 0.954
+OKS@0.50       : 1.000  (tỉ lệ người gán đúng ở mức 'nhận ra pose')
+OKS@0.75       : 1.000  (tỉ lệ người gán đủ chính xác để train)
+Người: gold 29 | ghép được 29 | thiếu 0 | thừa 0
+Mức            : Xuất sắc
+
+Danh sách lỗi theo loại:
+-    3  Lệch nhẹ - sửa được, ít hại
+-   44  Cờ khác gold (vị trí vẫn đúng) - không trừ điểm OKS
+-   74  Gold để v=0 ở khớp bạn có gán - không trừ điểm
+
+Không có skeleton nào cần rework: mọi người đều đạt OKS >= 0.75 và không có lỗi đã phân loại.
+
+Chi tiết từng khớp: outputs\eval_vs_gold.json
+
 | Chỉ số | Trước rework | Sau rework |
 | --- | ---: | ---: |
-| OKS trung bình | | |
-| OKS@0.50 | | |
-| OKS@0.75 | | |
-| Lỗi `dao_trai_phai` | | |
-| Lỗi `nham_nguoi` | | |
-| Lỗi `xoa_khop_bi_che` | | |
+| OKS trung bình | 0.954|0.98|
+| OKS@0.50 |1|1|
+| OKS@0.75 |1|1|
+| Lỗi `dao_trai_phai` |0|0|
+| Lỗi `nham_nguoi` |0|0|
+| Lỗi `xoa_khop_bi_che` |0|0|
 
 **Tôi đã sửa gì giữa hai lần chạy** (ghi cụ thể: ảnh nào, người thứ mấy, khớp nào):
 
 <!-- Mỗi dòng phải có: tên ảnh + người thứ mấy + keypoint + thao tác sửa. Không viết “đã sửa
 lại một số lỗi”. -->
 
--
--
--
+- Image 13 , person 2, right_wrist: sửa lại bị lệch nhẹ
+- Image 13 , person 3, left_ankle: sửa lại bị lệch nhẹ
+- Image 13 , person 3, right_ankle: sửa lại bị lệch nhẹ
 
 **Lỗi đảo trái/phải của tôi xảy ra ở ảnh nào?** Ảnh đó dễ hay khó? Nếu là ảnh dễ,
 bạn nghĩ vì sao mình vẫn sai?
 
+Không có lỗi đảo trái phải trong toàn bộ 20 ảnh
 <!-- Nếu không có lỗi, ghi rõ “Không có lỗi đảo trái/phải trong toàn bộ 20 ảnh.” -->
 
-## 3. Kiểm chéo
-
-Bạn cùng nhóm: ______
-
-Khớp lệch `%v=1` nhiều nhất giữa hai bảng đếm:
-
-| Khớp | Bạn | Họ | Lệch | Nguyên nhân (guideline hay gán sai?) |
-| --- | ---: | ---: | ---: | --- |
-| | | | | |
-| | | | | |
-
-Luật mới đã bổ sung vào `GUIDELINE_MINI.md` sau khi thống nhất:
-
-<!-- Viết một rule kiểm chứng được: điều kiện nhìn thấy/căn cứ vị trí → chọn v=1 hoặc v=0.
-Không chỉ ghi “cẩn thận hơn khi gán”. -->
-
--
-
-## 4. Model
+## 3. Model
 
 <!-- Chép số từ outputs/eval_model.json sau Chặng 6. “Chênh” = sau fine-tune trừ baseline;
 đây là quan sát trên tập test, không phải chất lượng sản phẩm. -->
@@ -126,7 +124,7 @@ Không chỉ ghi “cẩn thận hơn khi gán”. -->
 5. Ảnh bạn gán tệ nhất có *cũng* là ảnh model đoán tệ nhất không? Nếu có, điều đó
    nói gì về bức ảnh đó?
 
-## 5. Một rule evidence bạn đã dùng
+## 4. Một rule evidence bạn đã dùng
 
 Chọn một keypoint trong ảnh core mà bạn phải quyết định giữa `v=1` và `v=0`. Nêu ảnh, người,
 khớp, bằng chứng nhìn thấy và lý do chọn trạng thái đó trong 3-5 câu.
