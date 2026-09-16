@@ -99,11 +99,12 @@ Không có lỗi đảo trái phải trong toàn bộ 20 ảnh
 
 | Chỉ số | yolo26n-pose gốc | Sau fine-tune | Chênh |
 | --- | ---: | ---: | ---: |
-| pose_mAP50 | | | |
-| pose_mAP50-95 | | | |
-| pose_precision | | | |
-| pose_recall | | | |
-| box_mAP50-95 | | | |
+| pose_mAP50 |0.8450  |        0.8450 |  +0.0000|
+| pose_mAP50-95 |0.6853   |       0.6908|   +0.0055|
+| pose_precision | 0.9734    |      0.9792|   +0.0058|
+| pose_recall |  0.8462     |     0.8462|   +0.0000|
+| box_mAP50-95 |  0.9785      |   0.8041|   -0.0078|
+
 
 ### Trả lời năm câu hỏi ở cuối notebook
 
